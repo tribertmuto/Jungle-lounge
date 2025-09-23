@@ -37,7 +37,6 @@ export default function Home() {
       
       // Test API health
       const health = await apiClient.healthCheck();
-      console.log("API Health:", health);
       
       // Load posts
       const postsData = await apiClient.getPosts();

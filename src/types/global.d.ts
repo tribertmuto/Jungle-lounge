@@ -10,6 +10,22 @@ declare module 'next/image' {
 }
 
 declare module 'next/font/google' {
-  export function Geist(options: any): any;
-  export function Geist_Mono(options: any): any;
+  interface FontOptions {
+    variable?: string;
+    subsets?: string[];
+    display?: string;
+    weight?: string | string[];
+    style?: string | string[];
+  }
+  
+  interface FontReturn {
+    variable: string;
+    className: string;
+    style: {
+      fontFamily: string;
+    };
+  }
+  
+  export function Geist(options: FontOptions): FontReturn;
+  export function Geist_Mono(options: FontOptions): FontReturn;
 }

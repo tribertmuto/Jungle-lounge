@@ -1,5 +1,4 @@
 // API client for interacting with the backend
-const API_BASE_URL = typeof window !== 'undefined' ? '' : '';
 
 export interface User {
   id: number;
@@ -76,7 +75,7 @@ class ApiClient {
 
     if (!response.ok) {
       const error = await response.json().catch(() => ({ error: 'Network error' }));
-      throw new Error(error.error || 'Request failed');
+      throw new Error((error as { error?: string }).error || 'Request failed');
     }
 
     return response.json();

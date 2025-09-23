@@ -9,7 +9,6 @@ export const createRateLimit = (windowMs: number, max: number) => {
   return (req: NextApiRequest, res: NextApiResponse, next: () => void) => {
     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || 'unknown';
     const now = Date.now();
-    const windowStart = now - windowMs;
     
     // Clean up old entries
     for (const [key, value] of rateLimitMap.entries()) {
@@ -47,15 +46,19 @@ export function corsMiddleware(req: NextApiRequest, res: NextApiResponse, next: 
 }
 
 // Error handling middleware
-export function errorHandler(error: any, req: NextApiRequest, res: NextApiResponse) {
+export function errorHandler(error: unknown, req: NextApiRequest, res: NextApiResponse) {
   console.error('API Error:', error);
   
-  if (error.name === 'ValidationError') {
-    return res.status(400).json({ error: 'Validation failed', details: error.message });
-  }
-  
-  if (error.name === 'UnauthorizedError') {
-    return res.status(401).json({ error: 'Unauthorized' });
+  if (error instanceof Error) {
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ error: 'Validation failed', details: error.message });
+    }
+    
+    if (error.name === 'UnauthorizedError') {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+    
+    return res.status(500).json({ error: 'Internal server error' });
   }
   
   return res.status(500).json({ error: 'Internal server error' });

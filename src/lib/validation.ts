@@ -66,7 +66,7 @@ export const validateUsername = (username: string): { isValid: boolean; errors: 
   };
 };
 
-export const validateRequired = (data: any, fields: string[]): ValidationError[] => {
+export const validateRequired = (data: Record<string, unknown>, fields: string[]): ValidationError[] => {
   const errors: ValidationError[] = [];
   
   fields.forEach(field => {
@@ -81,7 +81,7 @@ export const validateRequired = (data: any, fields: string[]): ValidationError[]
   return errors;
 };
 
-export const validateRequestBody = (req: NextApiRequest, requiredFields: string[]): any => {
+export const validateRequestBody = (req: NextApiRequest, requiredFields: string[]): Record<string, unknown> => {
   const body = req.body;
   
   if (!body || typeof body !== 'object') {

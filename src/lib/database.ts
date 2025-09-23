@@ -52,7 +52,7 @@ class Database {
   }
 
   // Promisified database methods
-  run(sql: string, params: any[] = []): Promise<{ lastID: number; changes: number }> {
+  run(sql: string, params: unknown[] = []): Promise<{ lastID: number; changes: number }> {
     return new Promise((resolve, reject) => {
       this.db.run(sql, params, function(err) {
         if (err) reject(err);
@@ -61,7 +61,7 @@ class Database {
     });
   }
 
-  get(sql: string, params: any[] = []): Promise<any> {
+  get(sql: string, params: unknown[] = []): Promise<unknown> {
     return new Promise((resolve, reject) => {
       this.db.get(sql, params, (err, row) => {
         if (err) reject(err);
@@ -70,7 +70,7 @@ class Database {
     });
   }
 
-  all(sql: string, params: any[] = []): Promise<any[]> {
+  all(sql: string, params: unknown[] = []): Promise<unknown[]> {
     return new Promise((resolve, reject) => {
       this.db.all(sql, params, (err, rows) => {
         if (err) reject(err);
