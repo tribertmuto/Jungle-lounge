@@ -18,13 +18,14 @@ export class AppError extends Error implements ApiError {
   }
 }
 
-export const errorHandler = (error: ApiError, req: NextApiRequest, res: NextApiResponse) => {
-  const { statusCode = 500, message } = error;
+export const errorHandler = (error: unknown, req: NextApiRequest, res: NextApiResponse) => {
+  const statusCode = error instanceof AppError ? error.statusCode : 500;
+  const message = error instanceof Error ? error.message : 'Internal server error';
 
   console.error('API Error:', {
     message,
     statusCode,
-    stack: error.stack,
+    stack: error instanceof Error ? error.stack : undefined,
     url: req.url,
     method: req.method,
     timestamp: new Date().toISOString()
@@ -35,11 +36,11 @@ export const errorHandler = (error: ApiError, req: NextApiRequest, res: NextApiR
   
   res.status(statusCode).json({
     error: message,
-    ...(isDevelopment && { stack: error.stack })
+    ...(isDevelopment && error instanceof Error && { stack: error.stack })
   });
 };
 
-export const asyncHandler = (fn: Function) => {
+export const asyncHandler = (fn: (req: NextApiRequest, res: NextApiResponse) => Promise<void> | void) => {
   return (req: NextApiRequest, res: NextApiResponse) => {
     Promise.resolve(fn(req, res)).catch((error) => {
       errorHandler(error, req, res);

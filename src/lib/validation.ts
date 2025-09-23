@@ -1,14 +1,14 @@
 import { NextApiRequest } from 'next';
 
-export interface ValidationError {
+export interface ValidationErrorData {
   field: string;
   message: string;
 }
 
 export class ValidationError extends Error {
-  public errors: ValidationError[];
+  public errors: ValidationErrorData[];
 
-  constructor(errors: ValidationError[]) {
+  constructor(errors: ValidationErrorData[]) {
     super('Validation failed');
     this.errors = errors;
     this.name = 'ValidationError';
@@ -66,8 +66,8 @@ export const validateUsername = (username: string): { isValid: boolean; errors: 
   };
 };
 
-export const validateRequired = (data: Record<string, unknown>, fields: string[]): ValidationError[] => {
-  const errors: ValidationError[] = [];
+export const validateRequired = (data: Record<string, unknown>, fields: string[]): ValidationErrorData[] => {
+  const errors: ValidationErrorData[] = [];
   
   fields.forEach(field => {
     if (!data[field] || (typeof data[field] === 'string' && data[field].trim() === '')) {

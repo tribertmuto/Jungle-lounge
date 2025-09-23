@@ -45,24 +45,6 @@ export function corsMiddleware(req: NextApiRequest, res: NextApiResponse, next: 
   next();
 }
 
-// Error handling middleware
-export function errorHandler(error: unknown, req: NextApiRequest, res: NextApiResponse) {
-  console.error('API Error:', error);
-  
-  if (error instanceof Error) {
-    if (error.name === 'ValidationError') {
-      return res.status(400).json({ error: 'Validation failed', details: error.message });
-    }
-    
-    if (error.name === 'UnauthorizedError') {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
-    
-    return res.status(500).json({ error: 'Internal server error' });
-  }
-  
-  return res.status(500).json({ error: 'Internal server error' });
-}
 
 // Request logging middleware
 export function requestLogger(req: NextApiRequest, res: NextApiResponse, next: () => void) {

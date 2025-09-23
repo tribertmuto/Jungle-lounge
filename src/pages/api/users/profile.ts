@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { db } from '../../../lib/database';
-import { corsMiddleware, requestLogger, errorHandler, authenticateToken } from '../../../lib/middleware';
+import { corsMiddleware, requestLogger, authenticateToken } from '../../../lib/middleware';
+import { errorHandler } from '../../../lib/error-handler';
 import { AuthRequest } from '../../../lib/auth';
 
 export default async function handler(

@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { db } from '../../../lib/database';
 import { hashPassword, generateToken } from '../../../lib/auth';
-import { corsMiddleware, requestLogger, errorHandler } from '../../../lib/middleware';
+import { corsMiddleware, requestLogger } from '../../../lib/middleware';
+import { errorHandler } from '../../../lib/error-handler';
 
 interface RegisterRequest extends NextApiRequest {
   body: {

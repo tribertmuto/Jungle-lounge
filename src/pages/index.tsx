@@ -28,7 +28,7 @@ export default function Home() {
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const loadData = async () => {
     try {
@@ -36,7 +36,7 @@ export default function Home() {
       setError(null);
       
       // Test API health
-      const health = await apiClient.healthCheck();
+      await apiClient.healthCheck();
       
       // Load posts
       const postsData = await apiClient.getPosts();
