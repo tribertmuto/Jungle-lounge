@@ -59,7 +59,7 @@ class ApiClient {
   ): Promise<T> {
     const url = `${this.baseURL}/api${endpoint}`;
     
-    const headers: HeadersInit = {
+    const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       ...options.headers,
     };
