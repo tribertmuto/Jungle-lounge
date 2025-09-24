@@ -1,17 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
 import { apiClient, User, Post } from "../lib/api";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export default function Home() {
   const [user, setUser] = useState<User | null>(null);
@@ -28,7 +17,7 @@ export default function Home() {
 
   useEffect(() => {
     loadData();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   const loadData = async () => {
     try {
@@ -46,7 +35,7 @@ export default function Home() {
       try {
         const profile = await apiClient.getProfile();
         setUser(profile.user);
-      } catch (err) {
+      } catch {
         // User not authenticated, that's okay
         setUser(null);
       }

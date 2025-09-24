@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiResponse } from 'next';
 import { db } from '../../../lib/database';
 import { corsMiddleware, requestLogger, authenticateToken } from '../../../lib/middleware';
 import { errorHandler } from '../../../lib/error-handler';
